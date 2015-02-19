@@ -8,14 +8,14 @@ namespace FileToParts
 {
     public class FileSpliter
     {
-        private string directoryName;
+        private FileSpliterOptions splitOptions;
 
-        public FileSpliter(string directoryName)
+        public FileSpliter(FileSpliterOptions fileSpliterOptions)
         {
-            this.directoryName = directoryName;
+            this.splitOptions = fileSpliterOptions;
         }
 
-        public void SplitFiles(IEnumerable<FileInfo> filesToSplit, FileSpliterOptions fileSpliterOptions)
+        public void SplitFiles(IEnumerable<FileInfo> filesToSplit)
         {
             foreach (var file in filesToSplit)
             {
@@ -23,7 +23,7 @@ namespace FileToParts
 
                 string FileName = file.FullName;
 
-                int lastMinor = 0;
+                int fileVer = 0;
 
                 string tempFileName;
 
@@ -31,27 +31,28 @@ namespace FileToParts
                 {
                     string line;
 
-                    var buffer = fileSpliterOptions.MaxFileSize;
-                    string fileName = Path.Combine(directoryName, Path.GetRandomFileName());
+                    var buffer = splitOptions.MaxFileSize;
+                    string fileName = Path.Combine(splitOptions.DirectoryName, Path.GetRandomFileName());
                     tempFileName = fileName;
+                   
 
                     while ((line = sr.ReadLine()) != null)
                     {
-                        var size = fileSpliterOptions.FileManager.GetSize(line);
+                        var size = splitOptions.FileManager.GetSize(line);
                         buffer -= size;
 
-                        if (size > fileSpliterOptions.MaxFileSize)
+                        if (size > splitOptions.MaxFileSize)
                         {
-                            throw new Exception("Linia ma za duży rozmiar.");
+                            Console.Write("Linia ma za duży rozmiar.");
                         }
 
                         if (buffer < 0)
                         {
-                            buffer = fileSpliterOptions.MaxFileSize - size;
+                            buffer = splitOptions.MaxFileSize - size;
 
                             while (File.Exists(fileName))
                             {
-                                fileName = fileSpliterOptions.FileManager.GetNextFileName(file, ++lastMinor);
+                                fileName = splitOptions.FileManager.GetNextFileName(file, ++fileVer);
                             }
                         }
 
@@ -68,7 +69,7 @@ namespace FileToParts
 
                 File.Delete(tempFileName);
 
-                Console.Write("zakończono", file.Name);
+                Console.WriteLine("ok.", file.Name);
             }
 
         }

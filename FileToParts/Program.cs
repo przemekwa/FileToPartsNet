@@ -9,10 +9,6 @@ namespace FileToParts
 {
     class Program
     {
-        private static long MaxFileSize;
-
-        private static string MainDirectory;
-
         private static void Main(string[] args)
         {
             Console.WriteLine("Witaj Bogusiu!");
@@ -20,53 +16,39 @@ namespace FileToParts
             if (args.Length < 0)
             {
                 Console.WriteLine("Brak parametrów!");
+                Console.ReadKey();
+                return;
             }
 
-            MaxFileSize = long.Parse(args[1]);
-            
-            MainDirectory = args[0];
+            var MaxFileSize = long.Parse(args[1]);
+            var MainDirectory = args[0];
 
 
             var fileManager = new FileManager(MainDirectory);
 
             var buckets = fileManager.GetBuckets();
 
-            Console.WriteLine("Pobrano {0} plików.", buckets.Sum(b=>b.ListOfFileInfo.ToList().Count));
+            Console.WriteLine("Pobrano {0} plików.", buckets.Sum(b=>b.FileList.ToList().Count));
 
-            var fileWithWrongSize = GetFileWithWrongSize(buckets);
+            var fileWithWrongSize = (from bucket in buckets
+                                     from file in bucket.FileList
+                                     where file.Length > MaxFileSize
+                                     select file);
             
             Console.WriteLine("Znaleziono {0} plików, które maja rozmiar większy niż {1}", fileWithWrongSize.Count(), MaxFileSize);
 
 
-            var fileSpliter = new FileSpliter(MainDirectory);
-
-            fileSpliter.SplitFiles(fileWithWrongSize, new FileSpliterOptions
+            var fileSpliter = new FileSpliter(new FileSpliterOptions
             {
                 FileManager = fileManager,
                 MaxFileSize = MaxFileSize,
                 DirectoryName = MainDirectory,
             });
 
-
-            
-            
-
-           
+            fileSpliter.SplitFiles(fileWithWrongSize);
             
             Console.WriteLine("Do zobaczenia Bogusiu!");
             Console.ReadKey();
         }
-
-        
-
-        static IEnumerable<FileInfo> GetFileWithWrongSize(IEnumerable<FileBucket> fileBucket)
-        {
-            return (from bucket in fileBucket
-                 from filePath in bucket.ListOfFileInfo
-                 where filePath.Length > MaxFileSize
-                 select filePath);
-        }
-        
-
     }
 }

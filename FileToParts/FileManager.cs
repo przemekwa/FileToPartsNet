@@ -24,7 +24,7 @@ namespace FileToParts
                 this.GetBuckets();
             }
 
-            return this.GetMinorNumer(buckets.Single(b => b.MajorVersion == this.GetMajorNumer(fi)).ListOfFileInfo.Last());
+            return this.GetMinorNumer(buckets.Single(b => b.MajorVersion == this.GetMajorNumer(fi)).FileList.Last());
         }
 
         public  int GetMinorNumer(FileInfo fi)
@@ -75,13 +75,13 @@ namespace FileToParts
                 if (result.Any(b => b.MajorVersion == bucketNumber))
                 {
                     var test = result.First(b => b.MajorVersion == bucketNumber);
-                    test.ListOfFileInfo.Add(fi);
+                    test.FileList.Add(fi);
                 }
                 else
                 {
                     result.Add(new FileBucket
                     {
-                        ListOfFileInfo = new List<FileInfo>
+                        FileList = new List<FileInfo>
                         {
                             fi
                         },

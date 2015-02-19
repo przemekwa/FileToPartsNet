@@ -18,7 +18,7 @@ namespace FileToParts
     /// </summary>
     public class FileBucket
     {
-        public IEnumerable<FileInfo> ListOfFileInfo { get; set; }
+        public List<FileInfo> ListOfFileInfo { get; set; }
 
         public int MajorVersion { get; set; }
     }

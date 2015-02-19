@@ -67,7 +67,10 @@ namespace FileToParts
                 File.Copy(tempFileName, FileName);
 
                 File.Delete(tempFileName);
+
+                Console.Write("zakończono", file.Name);
             }
+
         }
     }
 }

@@ -74,7 +74,8 @@ namespace FileToParts
 
                 if (result.Any(b => b.MajorVersion == bucketNumber))
                 {
-                    result.First(b => b.MajorVersion == bucketNumber).ListOfFileInfo.ToList().Add(fi);
+                    var test = result.First(b => b.MajorVersion == bucketNumber);
+                    test.ListOfFileInfo.Add(fi);
                 }
                 else
                 {

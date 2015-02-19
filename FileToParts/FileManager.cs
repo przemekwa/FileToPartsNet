@@ -21,13 +21,13 @@ namespace FileToParts
         {
             if (buckets == null)
             {
-                this.GetBuckets();
+                buckets = this.GetBuckets();
             }
 
             return this.GetMinorNumer(buckets.Single(b => b.MajorVersion == this.GetMajorNumer(fi)).FileList.Last());
         }
 
-        public  int GetMinorNumer(FileInfo fi)
+        public int GetMinorNumer(FileInfo fi)
         {
             var bucket = fi.Name.Substring(fi.Name.LastIndexOf('_') + 1, 1);
 

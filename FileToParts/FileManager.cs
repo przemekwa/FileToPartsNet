@@ -15,6 +15,17 @@ namespace FileToParts
             this.pathToDirectory = pathToDirectory;
         }
 
+        public static int GetBucketNumer(FileInfo fi)
+        {
+            var bucket = fi.Name.Substring(fi.Name.IndexOf('_') + 1, 1);
+
+            int result = 0;
+
+            int.TryParse(bucket, out result);
+
+            return result;
+        }
+
 
         public IEnumerable<FileBucket> GetBuckets()
         {
@@ -26,7 +37,7 @@ namespace FileToParts
             {
                 var fi = new FileInfo(filePath);
 
-                var bucketNumber = fi.GetBucketNumer();
+                var bucketNumber = FileManager.GetBucketNumer(fi);
 
                 if (result.Any(b => b.MajorVersion == bucketNumber))
                 {

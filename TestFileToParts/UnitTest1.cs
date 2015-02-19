@@ -7,7 +7,7 @@ namespace TestFileToParts
     [TestClass]
     public class Tests
     {
-        [TestClass]
+       [TestMethod]
         public void CreateFile()
         {
             var directoryName = @"c:\Bogusia";

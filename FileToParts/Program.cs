@@ -51,7 +51,7 @@ namespace FileToParts
 
                 string FileName = file.FullName;
                
-                int lastMinor = buckets.Single(b => b.MajorVersion == file.GetBucketNumer()).ListOfFileInfo.Last().GetMinorNumer();
+                int lastMinor = buckets.Single(b => b.MajorVersion == FileManager.GetBucketNumer(file)).ListOfFileInfo.Last().GetMinorNumer();
 
                 string tempFileName;
 

@@ -5,7 +5,7 @@ using System.IO;
 namespace TestFileToParts
 {
     [TestClass]
-    public class UnitTest1
+    public class Tests
     {
         [TestClass]
         public void CreateFile()

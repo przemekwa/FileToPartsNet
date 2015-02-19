@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using FileToParts;
 
 namespace TestFileToParts
 {
@@ -30,6 +31,30 @@ namespace TestFileToParts
                     };
                 }
             }
+
+
+
+
         }
+
+       [TestMethod]
+       public void GetMinor()
+       {
+           var fm = new FileManager("");
+
+           var rezult = fm.GetMinorNumer(new FileInfo("aaa_1_2.txt"));
+
+           Assert.AreEqual(rezult, 2);
+       }
+
+       [TestMethod]
+       public void GetMajor()
+       {
+           var fm = new FileManager("");
+
+           var rezult = fm.GetMajorNumer(new FileInfo("aaa_1_2.txt"));
+
+           Assert.AreEqual(rezult, 1);
+       }
     }
 }

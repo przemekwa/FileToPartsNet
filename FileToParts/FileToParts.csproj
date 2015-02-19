@@ -43,9 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extension.cs" />
     <Compile Include="FileBucket.cs" />
     <Compile Include="FileManager.cs" />
+    <Compile Include="FileSpliter.cs" />
+    <Compile Include="FileSpliterOptions.cs" />
+    <Compile Include="IFileManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

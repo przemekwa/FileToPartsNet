@@ -1,25 +1,24 @@
-﻿// -----------------------------------------------------------------------
-// <copyright file="FileBucket.cs" company="Bank Zachodni WBK S.A.">
-// TODO: Update copyright text.
-// </copyright>
-// -----------------------------------------------------------------------
 
-using System.IO;
+// Copyright (c) 2015 Przemek Walkowski
 
 namespace FileToParts
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-
+    using System.IO;
+    
     /// <summary>
-    /// TODO: Update summary.
+    /// Class for bucket for file
     /// </summary>
     public class FileBucket
     {
+        /// <summary>
+        /// Gets or sets list of files in bucket
+        /// </summary>
         public List<FileInfo> FileList { get; set; }
 
+        /// <summary>
+        /// Gets or sets major version of bucket
+        /// </summary>
         public int MajorVersion { get; set; }
     }
 }

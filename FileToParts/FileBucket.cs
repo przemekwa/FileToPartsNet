@@ -1,4 +1,4 @@
-﻿
+
 // Copyright (c) 2015 Przemek Walkowski
 
 namespace FileToParts

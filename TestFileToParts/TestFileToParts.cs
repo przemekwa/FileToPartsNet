@@ -23,6 +23,7 @@ namespace TestFileToParts
 
                     using (var sw = new StreamWriter(fileName))
                     {
+                        sw.WriteLine("Nagłówek");
                         for (int y = 0; y < 2; y++)
                         {
                             sw.WriteLine(string.Format("{0} {1} {2}", i, j++, "sdgdsgsdflssfdsfgdsfgsdgsdgsdgsdgsdgsdgsdgsdgsdkfhsdlkfhasdkljfbnaskldjhsljkfghsdlkjfhsdkljfhlaskdhjsdlkjvnalkjl3255237856y23985"));

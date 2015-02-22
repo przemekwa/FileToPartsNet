@@ -1,70 +1,121 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿
+// Copyright (c) 2015 Przemek Walkowski
 
 namespace FileToParts
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+
+    /// <summary>
+    /// Class for file manager
+    /// </summary>
     public class FileManager : IFileManager
     {
-        readonly string pathToDirectory;
+        /// <summary>
+        /// Path to directory
+        /// </summary>
+        private readonly string pathToDirectory;
 
-        IEnumerable<FileBucket> buckets;
+        /// <summary>
+        /// Search pattern. ? and * are valid
+        /// </summary>
+        private readonly string searchPattern;
 
-        public FileManager(string pathToDirectory)
+        /// <summary>
+        /// List of buckets
+        /// </summary>
+        private IEnumerable<FileBucket> buckets;
+
+        /// <summary>
+        ///  Initializes a new instance of the <see cref="FileManager" /> class
+        /// </summary>
+        /// <param name="pathToDirectory">Path to directory</param>
+        /// <param name="searchPattern">Search pattern. ? and * are valid</param>
+        public FileManager(string pathToDirectory, string searchPattern)
         {
             this.pathToDirectory = pathToDirectory;
+            this.searchPattern = searchPattern;
         }
 
-        public int GetHighstMinorNumber(FileInfo fi)
+        /// <summary>
+        /// Get highest minor number from buckets.
+        /// </summary>
+        /// <param name="fi">File info</param>
+        /// <returns>Highest minor number for new file</returns>
+        public int GetHighestMinorNumber(FileInfo fi)
         {
-            if (buckets == null)
+            if (this.buckets == null)
             {
-                buckets = this.GetBuckets();
+               this.buckets = this.GetBuckets();
             }
 
-            return this.GetMinorNumer(buckets.Single(b => b.MajorVersion == this.GetMajorNumer(fi)).FileList.Last());
+            return this.GetMinorNumer(this.buckets.Single(b => b.MajorVersion == this.GetMajorNumer(fi)).FileList.Last());
         }
 
+        /// <summary>
+        /// Get ten minor number
+        /// </summary>
+        /// <param name="fi">File info</param>
+        /// <returns>Minor number </returns>
         public int GetMinorNumer(FileInfo fi)
         {
             var bucket = fi.Name.Substring(fi.Name.LastIndexOf('_') + 1, 1);
 
-            int result = 0;
+            int result;
 
             int.TryParse(bucket, out result);
 
             return result;
         }
 
+        /// <summary>
+        /// Get ten major number
+        /// </summary>
+        /// <param name="fi">File info</param>
+        /// <returns>Major number</returns>
         public int GetMajorNumer(FileInfo fi)
         {
             var bucket = fi.Name.Substring(fi.Name.IndexOf('_') + 1, 1);
 
-            int result = 0;
+            int result;
 
             int.TryParse(bucket, out result);
 
             return result;
         }
 
-        public  long GetSize(string s)
+        /// <summary>
+        /// Get size of string.
+        /// </summary>
+        /// <param name="s">String to check</param>
+        /// <returns>Size of string byte</returns>
+        public long GetSize(string s)
         {
             return Encoding.UTF8.GetByteCount(s);
         }
 
-        public  string GetNextFileName(FileInfo fileInfo, int number)
+        /// <summary>
+        /// Get the next file name.
+        /// </summary>
+        /// <param name="fileInfo">File info</param>
+        /// <param name="number">Number that file name should contain</param>
+        /// <returns>File name</returns>
+        public string GetNextFileName(FileInfo fileInfo, int number)
         {
-            return Path.Combine(pathToDirectory, string.Format("{0}{1}{2}", fileInfo.Name.Substring(0, fileInfo.Name.Length - 5), number, fileInfo.Extension));
+            return Path.Combine(this.pathToDirectory, string.Format("{0}{1}{2}", fileInfo.Name.Substring(0, fileInfo.Name.Length - 5), number, fileInfo.Extension));
         }
 
-        
+        /// <summary>
+        /// Get bucket of files
+        /// </summary>
+        /// <returns>List od file bucket</returns>
         public IEnumerable<FileBucket> GetBuckets()
         {
             var result = new List<FileBucket>();
 
-            var files = Directory.GetFiles(pathToDirectory);
+            var files = Directory.GetFiles(this.pathToDirectory, this.searchPattern);
 
             foreach (var filePath in files)
             {

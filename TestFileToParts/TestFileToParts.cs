@@ -40,7 +40,7 @@ namespace TestFileToParts
        [TestMethod]
        public void GetMinor()
        {
-           var fm = new FileManager("");
+           var fm = new FileManager("","*.txt");
 
            var rezult = fm.GetMinorNumer(new FileInfo("aaa_1_2.txt"));
 
@@ -50,7 +50,7 @@ namespace TestFileToParts
        [TestMethod]
        public void GetMajor()
        {
-           var fm = new FileManager("");
+           var fm = new FileManager("","*.txt");
 
            var rezult = fm.GetMajorNumer(new FileInfo("aaa_1_2.txt"));
 
